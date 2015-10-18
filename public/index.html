@@ -1,0 +1,49 @@
+<html>
+    <head>
+    <link rel="stylesheet" href="/css/fonts/fonts.css">
+    <style>
+    body { font-family: "ETBembo"; }
+    h1 { 
+        font-size: 160%; 
+        font-weight: normal; }
+
+    div.top {
+        display: flex;
+        flex-flow: row wrap;
+    }
+    div.top > div {
+        flex: 2; }
+
+    div.top > div:first-child {
+        flex: 1;
+        padding: 0 20px 0 20px;
+    }
+
+    canvas {
+        display: inline-block;
+        border: thin solid #888;
+    }
+    </style>
+    </head>
+    <body>
+    <div class="top">
+        <div>
+            <h1> Force layout </h1>
+            <p>We generate a 100 poitns at random locations.
+            A minimal spanning tree (using Prim's algorithm) is computed.
+            </p>
+            <p>
+            Each node also has a finite radius.
+            </p>
+        </div>
+        <div class="canvas">
+            <canvas id="c1"></canvas>
+        </div>
+    </div>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/canvas.js"></script>
+    <script src="/js/graph.js"></script>
+    <script src="/js/force-layout.js"></script>
+    <script src="/js/index.js"></script>
+    </body>
+</html>
