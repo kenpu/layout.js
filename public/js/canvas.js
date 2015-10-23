@@ -19,6 +19,14 @@ function Canvas(element, width, height) {
             ctx.beginPath();
             ctx.arc(point.x, point.y, point.r, 0, 2*Math.PI);
             ctx.fill();
+
+            if(point.label) {
+                ctx.textAlign = "center";
+                ctx.textBaseLine = "middle";
+                ctx.fillStyle = "#333";
+                ctx.font = "12pt Roboto";
+                ctx.fillText(point.label, point.x, point.y);
+            }
             ctx.restore();
             return this;
         },
@@ -57,7 +65,7 @@ function Canvas(element, width, height) {
 
             graph.edges().forEach(function(edge) {
                 canvas.line(
-                    graph.node(edge[0]), graph.node(edge[1]), prop);
+                    graph.node(edge[0]), graph.node(edge[1]), prop)
             });
         },
     }

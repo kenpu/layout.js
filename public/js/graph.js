@@ -3,7 +3,7 @@
 // a graph library
 //
 
-function Graph(nodes, width, height) {
+function Graph(name, nodes, width, height) {
     var all = {};
     var adjacency = {};
 
@@ -13,6 +13,8 @@ function Graph(nodes, width, height) {
     });
 
     return {
+        name: name,
+
         width: width,
 
         height: height,
@@ -80,6 +82,7 @@ function _randomPoint(w, h, r) {
     pointID += 1;
     return {
         id: pointID,
+        label: pointID,
         x: Math.random() * w,
         y: Math.random() * h,
         r: Math.random() * Math.random() * r + 5,
@@ -98,16 +101,23 @@ function _randomPoints(n, w, h) {
 }
 
 function RandomGraph(n, w, h) {
-    return Graph(_randomPoints(n, w, h), w, h);
+    var deferred = $.Deferred();
+
+    deferred.resolve(Graph("random" + n, _randomPoints(n, w, h), w, h));
+
+    return deferred;
 }
 
 function DebugGraph(w, h) {
+    var deferred = $.Deferred();
     var nodes = [
         {id: 1, x: 100, y: h / 2, r: 10},
         {id: 2, x: 200, y: h / 2, r: 10},
     ];
 
-    return Graph(nodes);
+    deferred.resolve(Graph("Debug", nodes));
+
+    return deferred;
 }
 
 

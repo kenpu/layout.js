@@ -23,18 +23,25 @@
         display: inline-block;
         border: thin solid #888;
     }
+
+    ul.buttons > li {
+        margin: 10px;
+        list-style: none;
+    }
+    ul.buttons {
+        margin: 0;
+        padding: 0;
+    }
     </style>
     </head>
     <body>
     <div class="top">
         <div>
-            <h1> Force layout </h1>
-            <p>We generate a 100 poitns at random locations.
-            A minimal spanning tree (using Prim's algorithm) is computed.
-            </p>
-            <p>
-            Each node also has a finite radius.
-            </p>
+            <h1 id="graph-name">Data Set</h1>
+            <ul class="buttons">
+                <li><button class="load">genres.json</button></li>
+                <li><button class="load">countries.json</button></li>
+            </ul>
         </div>
         <div class="canvas">
             <canvas id="c1"></canvas>
@@ -44,6 +51,7 @@
     <script src="/js/canvas.js"></script>
     <script src="/js/graph.js"></script>
     <script src="/js/force-layout.js"></script>
+    <script src="/js/imdb.js"></script>
     <script src="/js/index.js"></script>
     </body>
 </html>
