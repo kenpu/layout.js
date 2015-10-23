@@ -40,8 +40,8 @@ function LoadGraph(filename, w, h) {
                 nodes.push({
                     id: nodeMap[n],
                     label: n,
-                    x: Math.random() * w,
-                    y: Math.random() * h,
+                    x: (0.4 + 0.2*Math.random()) * w,
+                    y: (0.4 + 0.2*Math.random()) * h,
                     r: 20,
                 });
             }

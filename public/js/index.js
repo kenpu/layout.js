@@ -18,18 +18,22 @@ var draw = function(iter) {
 function start() {
     $("#graph-name").html(graph.name);
     Verlet_Simulate1(graph, draw, {
-        totaliter: 100,
+        totaliter: 500,
         dt: 0.1,
-        delay: 10,
-        damping: 0.01,
-        L0: 10,
+        delay: 1,
+        damping: 0.05,
+        L0: 1,
         K: 1/1000,
+        C: 10000,
     });
 }
 
 
 function StartFromRandom() {
-    RandomGraph(N, width, height).then(function(g) {
+    // var d  = RandomGraph(N, width, height)
+    var d  = DebugGraph(width, height);
+    
+    d.then(function(g) {
         graph = Prims(g, Euclidean);
         start();
     });

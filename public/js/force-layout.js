@@ -8,6 +8,7 @@ function Verlet_Simulate1(graph, draw, prop) {
         dt: 0.1,
         L0: 10,
         K: 1/100,
+        C: 0,
     }, prop);
 
     var iter = 0;
@@ -49,6 +50,7 @@ function Verlet_PointUpdate(id, graph, state, prop) {
     var dt  = prop.dt,
         L0  = prop.L0,
         K   = prop.K,
+        C   = prop.C,
         dmp = prop.damping;
 
     if(isNaN(dt + L0 + K)) {
@@ -63,6 +65,13 @@ function Verlet_PointUpdate(id, graph, state, prop) {
     neighbours.forEach(function(q) {
         var fpq = _spring(p, q, L0, K);
         f = (f == null) ? fpq : _add(f, fpq);
+    });
+
+    graph.nodes.forEach(function(q) {
+        if(p.id != q.id) {
+            var fpq = _repel(p, q, C);
+            f = (f == null) ? fpq : _add(f, fpq);
+        }
     });
 
     var x  = state[id].x,
@@ -101,14 +110,24 @@ function _spring(p, q, L0, K) {
         y: sgn * Fy,
     }
 
-    /*
-    console.debug("p, q", p, q);
-    console.debug("  L0, K", L0, K);
-    console.debug("  dx, dy, dL", dx, dy, dL);
-    console.debug("  force", force);
-    */
-
     return force;
+}
+
+// force acting on p by q via repulsion
+function _repel(p, q, C) {
+    var dx = p.x - q.x;
+    var dy = p.y - q.y;
+    var L2 = (dx*dx + dy*dy);
+    var L = Math.sqrt(L2);
+
+    var F = C / L2;
+    var Fx = F * dx / L,
+        Fy = F * dy / L;
+
+    return {
+        x: Fx,
+        y: Fy,
+    }
 }
 
 // make the unit vector from dx, dy.
@@ -135,14 +154,15 @@ function _add(f1, f2) {
     return f1;
 }
 
+// TODO: should have a flag to enable different types of constraints
 function Verlet_SolveConstraints(graph, state) {
     _solveBoundary(graph, state);
-    _solveCollision(graph, state);
+    // _solveCollision(graph, state);
 }
 
-var DAMPING = 0.8;
 
 function _solveBoundary(graph, state) {
+    var DAMPING = 0.5;
     graph.nodes.forEach(function(node) {
         var vx, vy, px, py;
         var s = state[node.id];
@@ -174,6 +194,7 @@ function _solveBoundary(graph, state) {
 }
 
 function _solveCollision(graph, state) {
+    var DAMPING = 0.8;
     for(var i=0; i < graph.nodes.length; i++) {
         var p1 = graph.nodes[i];
         var s1 = state[p1.id];
